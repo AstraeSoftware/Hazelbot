@@ -7,6 +7,7 @@
 #include "src/Modules/Two.h"
 
 #include "src/Commands/CStats.h"
+#include "src/Commands/Clb.h"
 #include "src/Commands/Quote.h"
 #include "src/Commands/Wisdom.h"
 
@@ -64,6 +65,7 @@ int main(int argc, char* argv[]){
 
   // Initialize commands
   CStats cmd_cstats = CStats();
+  Clb cmd_clb = Clb();
   Quote cmd_quote = Quote();
   Wisdom cmd_wisdom = Wisdom();
 
@@ -72,6 +74,9 @@ int main(int argc, char* argv[]){
   // Set up command callbacks
   bot.on_ready(std::bind(&CStats::InitializeCommand, &cmd_cstats, std::placeholders::_1, &mod_counting));
   bot.on_slashcommand(std::bind(&CStats::OnCommandRun, &cmd_cstats, std::placeholders::_1));
+
+  bot.on_ready(std::bind(&Clb::InitializeCommand, &cmd_clb, std::placeholders::_1));
+  bot.on_slashcommand(std::bind(&Clb::OnCommandRun, &cmd_clb, std::placeholders::_1));
 
   bot.on_ready(std::bind(&Quote::InitializeCommand, &cmd_quote, std::placeholders::_1));
   bot.on_message_context_menu(std::bind(&Quote::OnCommandRun, &cmd_quote, std::placeholders::_1));

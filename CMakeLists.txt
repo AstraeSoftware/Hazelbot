@@ -19,7 +19,8 @@ add_executable(${PROJECT_NAME}
 	src/Modules/Two.cpp
 	
 	src/RegisterCommand.cpp
-	src/Commands/CStats.cpp
+	src/Commands/CStats.cpp 
+        src/Commands/Clb.cpp
 	src/Commands/Quote.cpp
 	src/Commands/Quote_MessageInfo.cpp
 	src/Commands/Wisdom.cpp
