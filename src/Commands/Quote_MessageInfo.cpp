@@ -1,11 +1,13 @@
 #include "Quote_MessageInfo.h"
 
-Quote_MessageInfo::Quote_MessageInfo(dpp::snowflake guildId, dpp::snowflake message, dpp::snowflake messageAuthor, std::string messageContent, std::time_t messageSent){
+Quote_MessageInfo::Quote_MessageInfo(dpp::snowflake guildId, dpp::snowflake message, dpp::snowflake messageAuthor, std::string messageContent, std::time_t messageSent, std::string authorName, std::string authorAvatar){
   _guildId = guildId;
   _message = message;
   _messageAuthor = messageAuthor;
   _messageContent = messageContent;
   _messageSent = messageSent; 
+  _authorName = authorName;
+  _authorAvatar = authorAvatar;
 }
 
 Quote_MessageInfo::Quote_MessageInfo(){
@@ -34,4 +36,12 @@ std::time_t Quote_MessageInfo::GetMessageSent(){
 
 dpp::snowflake Quote_MessageInfo::GetMessageAuthorId(){
   return _messageAuthor;
+}
+
+std::string Quote_MessageInfo::GetMessageAuthorName(){
+  return _authorName;
+}
+
+std::string Quote_MessageInfo::GetMessageAuthorAvatar(){
+  return _authorAvatar;
 }

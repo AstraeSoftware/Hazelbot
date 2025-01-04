@@ -10,8 +10,17 @@ void Quote::addQuoteMessage(Quote_MessageInfo& message, dpp::cluster* bot, std::
   std::string content = "> " + message.GetMessageContent() + "\n \\- " + userMention + ", " + timestamp;
 
   dpp::message m;
-  m.content = content;
+  /*m.content = content;*/
   m.channel_id = ConfigParser::get_string("quotes_channel_id", "0");
+
+  dpp::embed embed = dpp::embed()
+    .set_author(message.GetMessageAuthorName(), "", message.GetMessageAuthorAvatar())
+    .set_description(message.GetMessageContent())
+    .set_timestamp(message.GetMessageSent());
+
+  m.add_embed(embed);
+
+
   Quote::ActiveVotes.erase(key); // deactivate vote
   bot->message_create(m);
 }
@@ -50,7 +59,7 @@ void Quote::OnCommandRun(const dpp::message_context_menu_t& event){
     }
     dpp::message context = event.ctx_message;
     dpp::message data = callback.get<dpp::message>();
-    Quote_MessageInfo info(data.guild_id, context.id, context.author.id, context.content, context.sent);
+    Quote_MessageInfo info(data.guild_id, context.id, context.author.id, context.content, context.sent, context.author.username, context.author.get_avatar_url());
 
     event.from->creator->message_add_reaction(data.id, data.channel_id, GetEmoji("quote_reaction_emoji"));
 
