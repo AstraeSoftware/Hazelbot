@@ -23,6 +23,10 @@ void ConfigParser::initialize_configuration() {
 
 	for (size_t i = 0; i < tokens.size(); i++)
 	{
+    if(tokens[i].find('=') == std::string::npos) {
+      // No equals sign has been found on this line, so we will ignore it
+      continue;
+    }
 		// splits string into key and value
 		std::vector<std::string> t = StringUtils::split_string(tokens[i], '=');
     
