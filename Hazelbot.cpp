@@ -75,7 +75,7 @@ int main(int argc, char* argv[]){
   bot.on_ready(std::bind(&CStats::InitializeCommand, &cmd_cstats, std::placeholders::_1, &mod_counting));
   bot.on_slashcommand(std::bind(&CStats::OnCommandRun, &cmd_cstats, std::placeholders::_1));
 
-  bot.on_ready(std::bind(&Clb::InitializeCommand, &cmd_clb, std::placeholders::_1));
+  bot.on_ready(std::bind(&Clb::InitializeCommand, &cmd_clb, std::placeholders::_1, &mod_counting));
   bot.on_slashcommand(std::bind(&Clb::OnCommandRun, &cmd_clb, std::placeholders::_1));
 
   bot.on_ready(std::bind(&Quote::InitializeCommand, &cmd_quote, std::placeholders::_1));
