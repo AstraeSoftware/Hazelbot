@@ -47,7 +47,7 @@ void CStats::OnCommandRun(const dpp::slashcommand_t& event){
   if(std::holds_alternative<std::monostate>(commandValue)){
     // no parameters given in the command
     embed.set_title("Counting Stats - Global");
-    embed.set_description("## Information\n**CurrentNumber:** " + std::to_string(_countingInstance->State.current_number)
+    embed.set_description("## Information\n**Previous Number:** " + std::to_string(_countingInstance->State.current_number - 1)
       + "\n**Last Author:** <@" + std::to_string(_countingInstance->State.last_count_author) + ">"
       + "\n\n## Statistics\n**Longest Chain:** " + std::to_string(_countingInstance->State.highest_count)
       + " (<t:" + std::to_string(_countingInstance->State.highest_count_sent + GetTimezoneOffset()) + ":R>)"
