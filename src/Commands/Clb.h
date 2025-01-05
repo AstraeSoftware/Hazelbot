@@ -8,6 +8,7 @@ class Clb {
 private:
   void getCountsLeaderboard(const dpp::slashcommand_t& event);
   void getFailuresLeaderboard(const dpp::slashcommand_t& event); 
+  void getAccuracyLeaderboard(const dpp::slashcommand_t& event);
 public:
   void InitializeCommand(const dpp::ready_t& event, Counting* countingInstance);
   void OnCommandRun(const dpp::slashcommand_t& event);

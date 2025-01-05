@@ -55,6 +55,7 @@ void Clb::InitializeCommand(const dpp::ready_t& event, Counting* countingInstanc
 
   options.add_choice(dpp::command_option_choice("Counts", std::string("lb_counts")));
   options.add_choice(dpp::command_option_choice("Failures", std::string("lb_failures")));
+  options.add_choice(dpp::command_option_choice("Accuracy", std::string("lb_acc")));
 
   command.set_name("clb");
   command.set_description("Shows the counting leaderboard for the selected stat");
@@ -71,6 +72,7 @@ void Clb::OnCommandRun(const dpp::slashcommand_t& event) {
 
   if(lb == "lb_counts") getCountsLeaderboard(event);
   else if(lb == "lb_failures") getFailuresLeaderboard(event);
+  else if(lb == "lb_acc") getAccuracyLeaderboard(event);
 }
 
 
@@ -118,6 +120,43 @@ void Clb::getFailuresLeaderboard(const dpp::slashcommand_t& event) {
   content.set_thumbnail(event.command.get_guild().get_icon_url());
   content.set_footer(dpp::embed_footer().set_text(std::to_string(_cInstance->State.total_failures) + " total failures."));
   content.set_color(dpp::colors::crimson_red);
+
+  event.reply(content);
+}
+
+void Clb::getAccuracyLeaderboard(const dpp::slashcommand_t& event) {
+  std::vector<LeaderboardUser> lb;
+  for(auto user : _cInstance->State.user_stats) {
+    if(user.second.total_failures == 0) {
+      // if the user has never failed before, then we'll ignore them to avoid messing up the leaderboard
+      // (i don't want the leaderboard to get to a point where all the top members are sitting on 100% bc that would be boring)
+
+      continue;
+    }
+    int value = std::round(((float)user.second.total_counts / ((float)user.second.total_counts + (float)user.second.total_failures)) * 10000);
+    lb.push_back(LeaderboardUser(user.first, value));
+  }
+  quickSort(lb, 0, lb.size() - 1);
+  std::reverse(std::begin(lb), std::end(lb));
+
+  std::string message = "";
+  for(int i = 0; i < lb.size() && i < 10; i++) {
+    std::string accValue = std::to_string(lb[i].value / 100.0);
+    
+    // remove trailing zeroes
+    accValue.erase(accValue.find_last_not_of('0') + 1, std::string::npos);
+    accValue.erase(accValue.find_last_not_of('.') + 1, std::string::npos);
+
+    std::string entry = "**#" + std::to_string(i + 1) + "**: <@" + lb[i].userId.str() + "> - " + accValue + "%\n";
+    message += entry;
+  }
+
+  dpp::embed content = dpp::embed();
+  content.set_title("Counting Leaderboard - Accuracy");
+  content.set_description(message);
+  content.set_thumbnail(event.command.get_guild().get_icon_url());
+  content.set_footer(dpp::embed_footer().set_text("Users with 0 failures are omitted from the leaderboard"));
+  content.set_color(dpp::colors::pastel_purple);
 
   event.reply(content);
 }
