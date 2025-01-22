@@ -43,11 +43,11 @@ void Clip::OnMessageSent(const dpp::message_create_t& event){
   // message was sent by bot, ignore
   if(event.msg.author == event.from->creator->me) return;
 
-  // to do: make this customizable
-  const std::string validLinks[2] ={
-    "twitch.tv/hazelnutstudio/clip",
-    "clips.twitch.tv/"
-  };
+  // get acceptable clip links
+  std::string linksRaw = ConfigParser::get_string("clips_acceptable_links", "twitch.tv/astraesoftware/clip,clips.twitch.tv/");
+  std::vector<std::string> validLinks = StringUtils::split_string(linksRaw, ',');
+
+
 
   bool validClipMessage;
   for(std::string link : validLinks){
