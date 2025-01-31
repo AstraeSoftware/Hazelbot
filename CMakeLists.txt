@@ -21,6 +21,7 @@ add_executable(${PROJECT_NAME}
 	
 	src/RegisterCommand.cpp
   src/Commands/Admin/ReloadCountingBlacklist.cpp
+  src/Commands/Admin/BlacklistCountingUser.cpp
 	src/Commands/CStats.cpp 
   src/Commands/Clb.cpp
 	src/Commands/Quote.cpp

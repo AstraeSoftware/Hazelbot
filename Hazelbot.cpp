@@ -1,4 +1,5 @@
-﻿#include "src/Commands/Admin/ReloadCountingBlacklist.h"
+﻿#include "src/Commands/Admin/BlacklistCountingUser.h"
+#include "src/Commands/Admin/ReloadCountingBlacklist.h"
 #include "src/Common.h"
 #include "src/Logger.h"
 
@@ -66,6 +67,7 @@ int main(int argc, char* argv[]){
 
   // Initialize commands
   ReloadCountingBlacklist cmd_a_reloadcountingblacklist = ReloadCountingBlacklist();
+  BlacklistCountingUser cmd_a_blacklistcountinguser = BlacklistCountingUser();
   CStats cmd_cstats = CStats();
   Clb cmd_clb = Clb();
   Quote cmd_quote = Quote();
@@ -76,6 +78,9 @@ int main(int argc, char* argv[]){
   // Set up command callbacks
   bot.on_ready(std::bind(&ReloadCountingBlacklist::InitializeCommand, &cmd_a_reloadcountingblacklist, std::placeholders::_1));
   bot.on_slashcommand(std::bind(&ReloadCountingBlacklist::OnCommandRun, &cmd_a_reloadcountingblacklist, std::placeholders::_1));
+
+  bot.on_ready(std::bind(&BlacklistCountingUser::InitializeCommand, &cmd_a_blacklistcountinguser, std::placeholders::_1));
+  bot.on_slashcommand(std::bind(&BlacklistCountingUser::OnCommandRun, &cmd_a_blacklistcountinguser, std::placeholders::_1));
 
   bot.on_ready(std::bind(&CStats::InitializeCommand, &cmd_cstats, std::placeholders::_1, &mod_counting));
   bot.on_slashcommand(std::bind(&CStats::OnCommandRun, &cmd_cstats, std::placeholders::_1));

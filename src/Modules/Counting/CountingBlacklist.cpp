@@ -1,11 +1,11 @@
 #include "CountingBlacklist.h"
 
-const std::string filePath = "config/counting_blacklist.cfg";
 std::vector<dpp::snowflake> _blacklistedUsers;
  
 void InitializeBlacklist() {
   Log("Initializing counting blacklist..", INFO, "Counting");
 
+  _blacklistedUsers = std::vector<dpp::snowflake>();
   std::ifstream file(filePath);
   std::stringstream buffer;
   buffer << file.rdbuf();
@@ -20,6 +20,7 @@ void InitializeBlacklist() {
   }
 
   Log("Counting blacklist initialized!", INFO, "Counting");
+  file.close();
 }
 
 bool IsBlacklisted(dpp::snowflake user) {
