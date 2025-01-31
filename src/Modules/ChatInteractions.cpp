@@ -51,4 +51,8 @@ void ChatInteractions::OnMessageSent(const dpp::message_create_t& event){
   else if(StringUtils::to_lower(event.msg.content).find("cabbit") != std::string::npos){
     event.reply(GetResponse("cabbit"));
   }
+
+  else if (StringUtils::to_lower(event.msg.content) == ("slash benet")) {
+    event.reply(GetResponse("slash_benet"));
+  }
 }
