@@ -1,4 +1,5 @@
 #include "Counting.h"
+#include "CountingBlacklist.h"
 #include "../../EmojiHandler.h"
 
 std::string getReaction(CountingState state){
@@ -37,6 +38,10 @@ bool Counting::isCountingMessage(const dpp::message_create_t& event){
 
   if(event.msg.author == event.from->creator->me){
     // this is our own message, so we want to ignore it
+    return false;
+  }
+
+  if(IsBlacklisted(event.msg.author.id)) {
     return false;
   }
   
@@ -138,6 +143,7 @@ Counting::Counting(){
   Log("Loading save file", DEBUG, "Counting");
   State = CountingSavesystem::load();
   Log("Save file loaded!", DEBUG, "Counting");
+  InitializeBlacklist();
   Log("Counting initialized!", INFO, "Counting");
 }
 

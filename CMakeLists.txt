@@ -14,13 +14,14 @@ add_executable(${PROJECT_NAME}
 	src/Modules/ChatInteractions.cpp
 	src/Modules/Counting/CountingState.cpp
 	src/Modules/Counting/CountingSavesystem.cpp
+  src/Modules/Counting/CountingBlacklist.cpp
 	src/Modules/Counting/Counting.cpp
 	src/Modules/Clip.cpp
 	src/Modules/Two.cpp
 	
 	src/RegisterCommand.cpp
 	src/Commands/CStats.cpp 
-        src/Commands/Clb.cpp
+  src/Commands/Clb.cpp
 	src/Commands/Quote.cpp
 	src/Commands/Quote_MessageInfo.cpp
 	src/Commands/Wisdom.cpp
