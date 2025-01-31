@@ -1,4 +1,5 @@
-﻿#include "src/Common.h"
+﻿#include "src/Commands/Admin/ReloadCountingBlacklist.h"
+#include "src/Common.h"
 #include "src/Logger.h"
 
 #include "src/Modules/Counting/Counting.h"
@@ -64,6 +65,7 @@ int main(int argc, char* argv[]){
   bot.on_message_reaction_add(std::bind(&Clip::OnMessageReactionAdd, &mod_clip, std::placeholders::_1));
 
   // Initialize commands
+  ReloadCountingBlacklist cmd_a_reloadcountingblacklist = ReloadCountingBlacklist();
   CStats cmd_cstats = CStats();
   Clb cmd_clb = Clb();
   Quote cmd_quote = Quote();
@@ -72,6 +74,9 @@ int main(int argc, char* argv[]){
   bot.on_ready(&InitializeCommandRegisterer);
 
   // Set up command callbacks
+  bot.on_ready(std::bind(&ReloadCountingBlacklist::InitializeCommand, &cmd_a_reloadcountingblacklist, std::placeholders::_1));
+  bot.on_slashcommand(std::bind(&ReloadCountingBlacklist::OnCommandRun, &cmd_a_reloadcountingblacklist, std::placeholders::_1));
+
   bot.on_ready(std::bind(&CStats::InitializeCommand, &cmd_cstats, std::placeholders::_1, &mod_counting));
   bot.on_slashcommand(std::bind(&CStats::OnCommandRun, &cmd_cstats, std::placeholders::_1));
 
